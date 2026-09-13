@@ -1,19 +1,59 @@
 #!/usr/bin/env sh
 
+usage() {
+    printf 'Usage: %s server [-p port]\n\n' "$0"
+    printf '  -p port     Listen on port 1-65535 (default: 8000).\n'
+    printf '  -h, --help  Display server help.\n'
+}
+
+fail() {
+    printf '%s\n\n' "$1" >&2
+    usage >&2
+    exit 2
+}
+
 if [ "$1" = "server" ]; then
     shift
     port=8000
-    while getopts ":p:" opt; do
-        case $opt in
-            p)
-                port=$OPTARG
-            ;;
+
+    while [ "$#" -gt 0 ]; do
+        case $1 in
+            -p)
+                [ "$#" -ge 2 ] || fail 'The -p option requires a port.'
+                port=$2
+                shift 2
+                ;;
+            -p?*)
+                port=${1#-p}
+                shift
+                ;;
+            -h|--help)
+                usage
+                exit 0
+                ;;
+            --)
+                shift
+                break
+                ;;
+            *)
+                fail "Unexpected server argument: $1"
+                ;;
         esac
     done
 
-    exec php -S localhost:${port} -t "$(dirname -- "$0")"/../public
+    [ "$#" -eq 0 ] || fail "Unexpected server argument: $1"
+
+    case $port in
+        ''|*[!0-9]*)
+            fail 'The port must be an integer between 1 and 65535.'
+            ;;
+    esac
+
+    if ! [ "$port" -ge 1 ] 2>/dev/null || ! [ "$port" -le 65535 ] 2>/dev/null; then
+        fail 'The port must be an integer between 1 and 65535.'
+    fi
+
+    exec php -S "localhost:$port" -t "$(dirname -- "$0")"/../public
 else
     exec php "$(dirname -- "$0")"/fyre.php "$@"
 fi
-
-exit

@@ -1,14 +1,15 @@
 <?php
 declare(strict_types=1);
 
-use Fyre\Command\CommandRunner;
+use Fyre\Console\CommandRunner;
 
 chdir(__DIR__);
 
 // Load application
-require realpath('../autoload.php');
+$app = require dirname(__DIR__).'/autoload.php';
 
 // Run command
-$code = app()->use(CommandRunner::class)->handle($argv);
-
-exit($code);
+$app
+    ->use(CommandRunner::class)
+    ->handle($argv ?? [])
+    |> exit(...);

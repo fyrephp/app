@@ -2,13 +2,11 @@
 declare(strict_types=1);
 
 use App\Application;
-use Fyre\Loader\Loader;
+use Fyre\Core\Loader;
 use Fyre\Utility\Path;
 
-define('TIME_START', hrtime());
-
 // Load Composer
-$composer = require realpath(__DIR__.'/vendor/autoload.php');
+$composer = require __DIR__.'/vendor/autoload.php';
 
 // Register autoloader
 $loader = (new Loader())
@@ -20,7 +18,7 @@ $loader = (new Loader())
 define('ROOT', __DIR__);
 define('APP', Path::join(ROOT, 'app'));
 define('CONFIG', Path::join(ROOT, 'config'));
-define('LANG', Path::join(ROOT, 'language'));
+define('LANG', Path::join(ROOT, 'lang'));
 define('LOG', Path::join(ROOT, 'log'));
 define('TEMPLATES', Path::join(ROOT, 'templates'));
 define('TMP', Path::join(ROOT, 'tmp'));
@@ -31,3 +29,5 @@ $app = new Application($loader);
 Application::setInstance($app);
 
 $app->call([$app, 'boot']);
+
+return $app;

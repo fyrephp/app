@@ -3,17 +3,18 @@ declare(strict_types=1);
 
 namespace App;
 
-use Fyre\Config\Config;
-use Fyre\Engine\Engine;
-use Fyre\Middleware\MiddlewareQueue;
+use Fyre\Core\Config;
+use Fyre\Core\Engine;
+use Fyre\Http\MiddlewareQueue;
+use Override;
 
 /**
- * Application
+ * Configures application bootstrap and middleware.
  */
 class Application extends Engine
 {
     /**
-     * Start the Engine.
+     * Loads application functions and bootstrap code.
      *
      * @param Config $config The Config.
      */
@@ -25,18 +26,17 @@ class Application extends Engine
     }
 
     /**
-     * Build application middleware.
-     *
-     * @param MiddlewareQueue $queue The MiddlewareQueue.
-     * @return MiddlewareQueue The MiddlewareQueue.
+     * {@inheritDoc}
      */
+    #[Override]
     public function middleware(MiddlewareQueue $queue): MiddlewareQueue
     {
         return $queue
             ->add('error')
-            ->add('csrf')
-            ->add('csp')
-            ->add('auth')
+            // Optional browser middleware; configure Session, Csrf, and Auth first.
+            // ->add('session')
+            // ->add('csrf')
+            // ->add('auth')
             ->add('router')
             ->add('bindings');
     }

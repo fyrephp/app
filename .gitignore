@@ -1,5 +1,23 @@
+# Application
+config/.env
 language/
 log/
 tmp/
+
+# Dependencies
 vendor/
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Tools
 .php-cs-fixer.cache
+.phpunit.result.cache
+coverage_report/
+coverage.xml
+phpunit.xml

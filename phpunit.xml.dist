@@ -1,0 +1,24 @@
+<phpunit
+    bootstrap="tests/bootstrap.php"
+    colors="true"
+    failOnDeprecation="true"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
+>
+    <testsuites>
+        <testsuite name="application">
+            <directory>tests/TestCase</directory>
+        </testsuite>
+    </testsuites>
+    <source>
+        <include>
+            <directory>app</directory>
+        </include>
+    </source>
+    <php>
+        <ini name="memory_limit" value="-1"/>
+        <ini name="error_reporting" value="E_ALL" />
+        <ini name="display_errors" value="On" />
+        <ini name="display_startup_errors" value="On" />
+    </php>
+</phpunit>

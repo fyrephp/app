@@ -1,20 +1,26 @@
 <?php
 declare(strict_types=1);
 
-use Fyre\Middleware\RequestHandler;
-use Fyre\Server\ServerRequest;
+use Fyre\Http\RequestHandler;
+use Fyre\Http\ResponseEmitter;
+use Fyre\Router\RouteHandler;
+use Psr\Http\Message\ServerRequestInterface;
 
 // Load application
-require realpath('../autoload.php');
+$app = require dirname(__DIR__).'/autoload.php';
 
 // Handle request
-$app = app();
+$handler = $app->use(RequestHandler::class, [
+    'fallbackHandler' => $app->use(RouteHandler::class),
+]);
+$response = $app->use(ServerRequestInterface::class) |> $handler->handle(...);
 
-$response = $app->call([RequestHandler::class, 'handle']);
-$request = $app->use(ServerRequest::class);
+// Emit response using the current request after middleware
+$request = $app->use(ServerRequestInterface::class);
 
-$response->send();
+$app->use(ResponseEmitter::class)->emit($response, $request);
 
+// Dispatch shutdown event
 $app->dispatchEvent('Engine.shutdown', [
     'request' => $request,
     'response' => $response,

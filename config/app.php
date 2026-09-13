@@ -2,22 +2,23 @@
 declare(strict_types=1);
 
 use Fyre\Auth\Authenticators\SessionAuthenticator;
-use Fyre\Cache\Handlers\FileCacher;
-use Fyre\DB\Handlers\MySQL\MySQLConnection;
+use Fyre\Cache\Handlers\File\FileCacher;
+use Fyre\DB\Handlers\Mysql\MysqlConnection;
+use Fyre\Http\ClientResponse;
+use Fyre\Http\Session\Handlers\FileSessionHandler;
 use Fyre\Log\Handlers\FileLogger;
 use Fyre\Mail\Handlers\SmtpMailer;
 use Fyre\Queue\Handlers\RedisQueue;
-use Fyre\Server\ClientResponse;
-use Fyre\Session\Handlers\FileSessionHandler;
 use Fyre\Utility\Path;
 
 return [
     'App' => [
         'baseUri' => env('BASE_URI', ''),
         'charset' => 'UTF-8',
-        'debug' => true,
+        'debug' => filter_var(env('APP_DEBUG', '0'), FILTER_VALIDATE_BOOLEAN),
         'defaultLayout' => null,
-        'locale' => 'en',
+        'defaultLocale' => 'en',
+        'supportedLocales' => ['en'],
         'timezone' => 'UTC',
     ],
     'Auth' => [
@@ -32,17 +33,28 @@ return [
             'className' => FileCacher::class,
             'path' => Path::join(TMP, 'cache'),
         ],
-        'schema' => [
+        '_routes' => [
             'className' => FileCacher::class,
-            'path' => Path::join(TMP, 'schema'),
+            'path' => Path::join(TMP, 'cache', 'routes'),
+        ],
+        '_schema' => [
+            'className' => FileCacher::class,
+            'path' => Path::join(TMP, 'cache', 'schema'),
+        ],
+        '_events' => [
+            'className' => FileCacher::class,
+            'path' => Path::join(TMP, 'cache', 'events'),
         ],
     ],
     'Csrf' => [
-        'salt' => '{salt}',
+        'cookie' => [
+            'secure' => filter_var(env('CSRF_COOKIE_SECURE', '1'), FILTER_VALIDATE_BOOLEAN),
+        ],
+        'salt' => env('CSRF_SALT'),
     ],
     'Database' => [
         'default' => [
-            'className' => MySQLConnection::class,
+            'className' => MysqlConnection::class,
             'host' => env('DB_HOST', '127.0.0.1'),
             'username' => env('DB_USERNAME', 'root'),
             'password' => env('DB_PASSWORD', ''),
@@ -50,18 +62,21 @@ return [
             'port' => (int) env('DB_PORT', '3306'),
             'collation' => 'utf8mb4_unicode_ci',
             'charset' => 'utf8mb4',
+            'log' => false,
         ],
     ],
     'Error' => [
         'level' => E_ALL,
         'log' => true,
-        'renderer' => function(Throwable $exception): ClientResponse|string {
+        'renderer' => static function(Throwable $exception): ClientResponse|string {
             $contentType = request()->negotiate('content', ['text/html', 'application/json']);
 
             return match ($contentType) {
                 'application/json' => json([
-                    'message' => $exception->getMessage(),
-                ]),
+                    'message' => config('App.debug') ?
+                        $exception->getMessage() :
+                        'Something Went Wrong',
+                ])->withStatus(500),
                 default => view('error', [
                     'exception' => $exception,
                 ])
@@ -72,7 +87,14 @@ return [
         'default' => [
             'className' => FileLogger::class,
             'path' => LOG,
-            'threshold' => 5,
+            'levels' => ['emergency', 'alert', 'critical', 'error', 'warning'],
+        ],
+        'queries' => [
+            'className' => FileLogger::class,
+            'path' => LOG,
+            'file' => 'queries',
+            'levels' => ['debug'],
+            'scopes' => ['queries'],
         ],
     ],
     'Mail' => [
@@ -95,6 +117,9 @@ return [
         ],
     ],
     'Session' => [
+        'cookie' => [
+            'secure' => filter_var(env('SESSION_COOKIE_SECURE', '1'), FILTER_VALIDATE_BOOLEAN),
+        ],
         'handler' => [
             'className' => FileSessionHandler::class,
         ],

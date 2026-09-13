@@ -1,13 +1,23 @@
 <?php
 declare(strict_types=1);
 
-use Fyre\Error\ErrorHandler;
+use Fyre\Core\ErrorHandler;
 use Fyre\Utility\Path;
 
 // Load environment variables
-if (file_exists(Path::join(CONFIG, '.env'))) {
-    $env = parse_ini_file('.env');
+$envPath = Path::join(CONFIG, '.env');
+if (file_exists($envPath)) {
+    $env = parse_ini_file($envPath, false, INI_SCANNER_RAW);
+
+    if ($env === false) {
+        throw new RuntimeException('Could not parse environment file: '.$envPath);
+    }
+
     foreach ($env as $key => $value) {
+        if (getenv($key) !== false) {
+            continue;
+        }
+
         putenv($key.'='.$value);
     }
 }
@@ -19,9 +29,6 @@ config()->load('app');
 app(ErrorHandler::class)->register();
 
 // Set global defaults
-locale_set_default(config('App.locale', 'en'));
-date_default_timezone_set(config('App.timezone', 'UTC'));
-mb_internal_encoding(config('App.charset', 'UTF-8'));
-
-// Start session
-session()->start();
+config('App.defaultLocale', 'en') |> locale_set_default(...);
+config('App.timezone', 'UTC') |> date_default_timezone_set(...);
+config('App.charset', 'UTF-8') |> mb_internal_encoding(...);

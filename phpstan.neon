@@ -1,0 +1,8 @@
+parameters:
+    level: 8
+    treatPhpDocTypesAsCertain: false
+    bootstrapFiles:
+        - autoload.php
+        - config/bootstrap.php
+    paths:
+        - app
