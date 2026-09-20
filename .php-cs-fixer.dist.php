@@ -8,6 +8,6 @@ $config = new Config();
 $config->setUnsupportedPhpVersionAllowed(true);
 $config->getFinder()
     ->in(__DIR__)
-    ->exclude(['tmp']);
+    ->exclude(['log', 'tmp']);
 
 return $config;
