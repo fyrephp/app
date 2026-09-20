@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace App;
 
-use Fyre\Core\Config;
 use Fyre\Core\Engine;
 use Fyre\Http\MiddlewareQueue;
 use Override;
@@ -14,15 +13,10 @@ use Override;
 class Application extends Engine
 {
     /**
-     * Loads application functions and bootstrap code.
-     *
-     * @param Config $config The Config.
+     * Runs custom initialization after application bootstrap.
      */
-    public function boot(Config $config): void
+    public function boot(): void
     {
-        $config
-            ->load('functions')
-            ->load('bootstrap');
     }
 
     /**

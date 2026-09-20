@@ -28,6 +28,8 @@ $app = new Application($loader);
 
 Application::setInstance($app);
 
+require CONFIG.'/bootstrap.php';
+
 $app->call([$app, 'boot']);
 
 return $app;
