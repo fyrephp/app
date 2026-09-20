@@ -15,9 +15,7 @@ class Application extends Engine
     /**
      * Runs custom initialization after application bootstrap.
      */
-    public function boot(): void
-    {
-    }
+    public function boot(): void {}
 
     /**
      * {@inheritDoc}
