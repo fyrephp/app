@@ -2,6 +2,12 @@
 
 This file records user-visible changes to the FyrePHP application skeleton. Internal refactors, test-only changes, and other changes that do not affect users are omitted.
 
+## 1.0.2 - 2026-09-27
+
+### Changed
+
+- Updated the locked FyreFramework dependency to 1.1.0 and refreshed development dependencies.
+
 ## 1.0.1 - 2026-09-20
 
 ### Changed
