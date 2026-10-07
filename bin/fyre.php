@@ -8,6 +8,9 @@ chdir(__DIR__);
 // Load application
 $app = require dirname(__DIR__).'/autoload.php';
 
+// Boot application
+$app->call([$app, 'boot']);
+
 // Run command
 $app
     ->use(CommandRunner::class)

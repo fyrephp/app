@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8290b7b8b26f2b79a587312858e609e4",
+    "content-hash": "2e937e6ce6a99e7d6daee6ce0eb700de",
     "packages": [
         {
             "name": "fyre/framework",
-            "version": "v1.1.0",
+            "version": "v1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/fyrephp/framework.git",
-                "reference": "30ed2c06866e6f1beb08bc4bb33b7e8d0b2dfa23"
+                "reference": "66b6e66a087d4d925ab1ef7271670dbaf9f96947"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fyrephp/framework/zipball/30ed2c06866e6f1beb08bc4bb33b7e8d0b2dfa23",
-                "reference": "30ed2c06866e6f1beb08bc4bb33b7e8d0b2dfa23",
+                "url": "https://api.github.com/repos/fyrephp/framework/zipball/66b6e66a087d4d925ab1ef7271670dbaf9f96947",
+                "reference": "66b6e66a087d4d925ab1ef7271670dbaf9f96947",
                 "shasum": ""
             },
             "require": {
@@ -107,9 +107,9 @@
             ],
             "support": {
                 "issues": "https://github.com/fyrephp/framework/issues",
-                "source": "https://github.com/fyrephp/framework/tree/v1.1.0"
+                "source": "https://github.com/fyrephp/framework/tree/v1.2.0"
             },
-            "time": "2026-09-27T00:53:25+00:00"
+            "time": "2026-10-07T08:07:44+00:00"
         },
         {
             "name": "psr/container",

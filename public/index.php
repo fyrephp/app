@@ -9,6 +9,9 @@ use Psr\Http\Message\ServerRequestInterface;
 // Load application
 $app = require dirname(__DIR__).'/autoload.php';
 
+// Boot application
+$app->call([$app, 'boot']);
+
 // Handle request
 $handler = $app->use(RequestHandler::class, [
     'fallbackHandler' => $app->use(RouteHandler::class),

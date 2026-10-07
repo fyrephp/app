@@ -64,6 +64,17 @@ return [
             'charset' => 'utf8mb4',
             'log' => false,
         ],
+        'test' => [
+            'className' => MysqlConnection::class,
+            'host' => env('TEST_DB_HOST', '127.0.0.1'),
+            'username' => env('TEST_DB_USERNAME', 'root'),
+            'password' => env('TEST_DB_PASSWORD', ''),
+            'database' => env('TEST_DB_NAME', 'fyre_test'),
+            'port' => (int) env('TEST_DB_PORT', '3306'),
+            'collation' => 'utf8mb4_unicode_ci',
+            'charset' => 'utf8mb4',
+            'log' => false,
+        ],
     ],
     'Error' => [
         'level' => E_ALL,

@@ -23,13 +23,11 @@ define('LOG', Path::join(ROOT, 'log'));
 define('TEMPLATES', Path::join(ROOT, 'templates'));
 define('TMP', Path::join(ROOT, 'tmp'));
 
-// Boot application
+// Initialize application
 $app = new Application($loader);
 
 Application::setInstance($app);
 
 require CONFIG.'/bootstrap.php';
-
-$app->call([$app, 'boot']);
 
 return $app;
