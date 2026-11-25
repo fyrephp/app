@@ -2,6 +2,12 @@
 
 This file records user-visible changes to the FyrePHP application skeleton. Internal refactors, test-only changes, and other changes that do not affect users are omitted.
 
+## Unreleased
+
+### Changed
+
+- Upgrade to FyreFramework 2.0 and raise the minimum PHP version to 8.6.
+
 ## 1.0.3 - 2026-10-07
 
 ### Changed

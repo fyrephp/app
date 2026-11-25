@@ -20,7 +20,7 @@
 
 ## Getting started
 
-Requires PHP 8.5 or later, the `intl`, `mbstring`, and `sodium` extensions, and Composer.
+This skeleton uses FyreFramework 2.0 and requires PHP 8.6 or later, the `intl`, `mbstring`, and `sodium` extensions, and Composer.
 
 Create a new application with Composer:
 
@@ -92,7 +92,7 @@ Use `composer cs:fix` to apply the framework's formatting rules.
 
 ## Testing
 
-Requires FyreFramework 1.2 or later. `autoload.php` initializes the application and loads its configuration. The HTTP and CLI entry points then call `Application::boot()`. `tests/bootstrap.php` applies test settings, adds test connection aliases, disables cache, unregisters the PHP error handler, and disables CLI error rendering before calling boot.
+`autoload.php` initializes the application and loads its configuration. The HTTP and CLI entry points then call `Application::boot()`. `tests/bootstrap.php` applies test settings, adds test connection aliases, disables cache, unregisters the PHP error handler, and disables CLI error rendering before calling boot.
 
 `config/app.php` defines `Database.test` using separate `TEST_DB_*` settings from `config/.env.example`. They do not fall back to application database credentials. The test bootstrap aliases `Database.default` to `Database.test`; for each additional application connection, add a corresponding `Database.test_<name>` configuration in `config/app.php`. Create the test databases and prepare their schemas before running fixture tests. Automatic fixtures require configured `test` or `test_*` write connections and truncate affected tables during cleanup. The supplied tests do not require a database or Redis server.
 
@@ -102,7 +102,7 @@ Cache is disabled by default. Add `Fyre\TestSuite\Traits\CacheTestTrait` to test
 
 HTTP integration tests render error responses by default. Call `$this->disableErrorRendering()` when expecting the original exception; rendering is restored automatically during cleanup. Put `expectException()` and, where practical, `expectExceptionMessageIs()` before the operation being tested.
 
-See the framework's [test configuration guide](https://github.com/fyrephp/framework/blob/v1.2.0/docs/testing/configuration.md) for the APIs and lifecycle details.
+See the framework's [test configuration guide](https://github.com/fyrephp/framework/blob/v2.0.0/docs/testing/configuration.md) for the APIs and lifecycle details.
 
 ## License
 

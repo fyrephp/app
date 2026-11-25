@@ -17,12 +17,12 @@
         }
     ],
     "require": {
-        "php": ">=8.5",
-        "fyre/framework": "^1.2"
+        "php": ">=8.6",
+        "fyre/framework": "^2.0"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.91",
-        "phpstan/phpstan": "^2.1",
+        "friendsofphp/php-cs-fixer": "^3.95",
+        "phpstan/phpstan": "^2.3",
         "phpunit/phpunit": "^13"
     },
     "autoload": {
