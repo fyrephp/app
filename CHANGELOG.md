@@ -2,7 +2,7 @@
 
 This file records user-visible changes to the FyrePHP application skeleton. Internal refactors, test-only changes, and other changes that do not affect users are omitted.
 
-## Unreleased
+## 2.0.0 - 2026-11-25
 
 ### Changed
 
